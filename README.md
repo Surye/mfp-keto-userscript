@@ -1,7 +1,6 @@
 Created primarily for the /r/keto community on Reddit.
 
-<h1>Remember this script <b>REQUIRES</b> the following columns: Fat, Protein, Carbs, Fiber!</h1>
-
+<h2>Remember this script <b>REQUIRES</b> the following columns: Fat, Protein, Carbs, Fiber!</h2>
 
 <h1>Install:</h1>
 <ul>
