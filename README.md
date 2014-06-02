@@ -5,8 +5,8 @@ Created primarily for the /r/keto community on Reddit.
 <h1>Install:</h1>
 <ul>
 <li><b>Chrome</b>: Install <a href="https://chrome.google.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo">Tampermonkey</a>.</li>
-<li><b>Firefox</b>: Install Greasemonkey</li>
-<li><b>Internet Explorer</b>: Install Trixie, http://www.bhelpuri.net/Trixie/.</li>
+<li><b>Firefox</b>: Install <a href="https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/">Greasemonkey</a></li>
+<li><b>Internet Explorer</b>: Not sure anymore, old plugin is gone.</li>
 <li><b>ALL: After installing the plugin, go to https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js to install.</b>
 </ul>
 <h1>FAQ:</h1>
