@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name           MyFitnessPal Percentages and Net Carbs
-// @version        1.4
+// @version        1.5
 // @namespace      surye
 // @description    Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @include http://www.myfitnesspal.com/food/diary/* 
 // @include https://www.myfitnesspal.com/food/diary/*
+// @include http://www.myfitnesspal.com/food/diary
+// @include https://www.myfitnesspal.com/food/diary
 // ==/UserScript==
 
 /* side note - 5/30/65 Carbs/Protein/Fat is a good ratio for fat loss */
