@@ -305,7 +305,8 @@ function main() {
         ]);
 
         var chart = new google.visualization.PieChart(document.getElementById('google_graph_1'));
-        chart.draw(data1, { width: 400, height: 300, title: 'Daily Totals by Calories (This is what you use for your macro ratios)' });
+        chart.draw(data1, { width: 350, height: 300, title: 'Daily Totals by Calories (This is what you use for your macro ratios)' });
+        document.getElementById('google_graph_1').style.cssFloat = "left";
 
 
         jQuery('.food_container').append('<div id="google_graph_2"></div>');
@@ -319,12 +320,13 @@ function main() {
         data2.addColumn('string', 'Type');
         data2.addColumn('number', 'Grams');
         data2.addRows([
-		   ['Net Carbs (' + carb_grams + 'g)', carb_grams ],
-		   ['Protein (' + pro_grams + 'g)' , pro_grams],
+		   ['Net Carbs (' + carb_grams + 'g)', carb_grams],
+		   ['Protein (' + pro_grams + 'g)', pro_grams],
 		   ['Fat (' + fat_grams + 'g)', fat_grams]
         ]);
 
         var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
-        chart2.draw(data2, { width: 400, height: 300, title: 'Daily Totals by Grams' });
+        chart2.draw(data2, { width: 350, height: 300, title: 'Daily Totals by Grams' });
+        document.getElementById('google_graph_2').style.cssFloat = "right";
     }
 }
