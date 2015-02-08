@@ -319,7 +319,7 @@ function main() {
 		   ['Fat', daily_total_fat_grams / 9]
         ]);
 
-        var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_1'));
+        var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
         chart.draw(data2, { width: 400, height: 300, title: 'Daily Totals by Grams' });
     }
 }
