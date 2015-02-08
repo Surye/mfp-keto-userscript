@@ -306,5 +306,20 @@ function main() {
 
         var chart = new google.visualization.PieChart(document.getElementById('google_graph_1'));
         chart.draw(data1, { width: 400, height: 300, title: 'Daily Totals by Calories' });
+
+
+        jQuery('.food_container').append('<div id="google_graph_2"></div>');
+
+        var data2 = new google.visualization.DataTable();
+        data2.addColumn('string', 'Type');
+        data2.addColumn('number', 'Grams');
+        data2.addRows([
+		   ['Net Carbs', daily_total_carbs / 4],
+		   ['Protein', daily_total_protein / 4],
+		   ['Fat', daily_total_fat_grams / 9]
+        ]);
+
+        var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_1'));
+        chart.draw(data2, { width: 400, height: 300, title: 'Daily Totals by Grams' });
     }
 }
