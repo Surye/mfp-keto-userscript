@@ -320,8 +320,8 @@ function main() {
         data2.addColumn('number', 'Grams');
         data2.addRows([
 		   ['Net Carbs (' + carb_grams + 'g)', carb_grams ],
-		   ['Protein (' + pro_grams + ')' , pro_grams],
-		   ['Fat (' + fat_grams + ')', fat_grams]
+		   ['Protein (' + pro_grams + 'g)' , pro_grams],
+		   ['Fat (' + fat_grams + 'g)', fat_grams]
         ]);
 
         var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
