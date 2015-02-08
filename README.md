@@ -9,6 +9,12 @@ Created primarily for the /r/keto community on Reddit.
 <li><b>Internet Explorer</b>: Not sure anymore, old plugin is gone.</li>
 <li><b>ALL: After installing the plugin, go to https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js to install.</b>
 </ul>
+
+<h1>Upgrade:</h1>
+<ul>
+<li>Just visit https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js and click Upgrade.</li>
+</ul>
+
 <h1>FAQ:</h1>
 
 Q: Food item shows up in red and says bad data?! What gives?!
