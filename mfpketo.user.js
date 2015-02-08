@@ -316,7 +316,7 @@ function main() {
         data2.addRows([
 		   ['Net Carbs', daily_total_carbs / 4],
 		   ['Protein', daily_total_protein / 4],
-		   ['Fat', daily_total_fat_grams / 9]
+		   ['Fat', daily_total_fat / 9]
         ]);
 
         var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
