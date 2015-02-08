@@ -16,9 +16,10 @@ Created primarily for the /r/keto community on Reddit.
 </ul>
 
 <h1>FAQ:</h1>
+<ul>
+<li>Q: Food item shows up in red and says bad data?! What gives?!</li>
+<li>A: Someone added the food item incorrectly, and put net carbs in the carbs value, and so the fiber subtracts from it, making negative carbs. Nothing I can really do about this without modifying more data than I wish to.</li>
 
-Q: Food item shows up in red and says bad data?! What gives?!
-A: Someone added the food item incorrectly, and put net carbs in the carbs value, and so the fiber subtracts from it, making negative carbs. Nothing I can really do about this without modifying more data than I wish to.
-
-Q: I get NaN's in the Net Carb column!
-A: It may be you didn't have all the required columns added, go to http://www.myfitnesspal.com/account/diary_settings and make sure all the columns required are there (most likely, you need to add the fiber column).
+<li>Q: I get NaN's in the Net Carb column!</li>
+<li>A: It may be you didn't have all the required columns added, go to http://www.myfitnesspal.com/account/diary_settings and make sure all the columns required are there (most likely, you need to add the fiber column).</li>
+</ul>
