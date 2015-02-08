@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           MyFitnessPal Percentages and Net Carbs
-// @version        1.6
+// @version        1.7
 // @namespace      surye
 // @description    Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @include http://www.myfitnesspal.com/food/diary/* 
@@ -305,18 +305,23 @@ function main() {
         ]);
 
         var chart = new google.visualization.PieChart(document.getElementById('google_graph_1'));
-        chart.draw(data1, { width: 400, height: 300, title: 'Daily Totals by Calories' });
+        chart.draw(data1, { width: 400, height: 300, title: 'Daily Totals by Calories (This is what you use for your macro ratios)' });
 
 
         jQuery('.food_container').append('<div id="google_graph_2"></div>');
+
+        carb_grams = daily_total_carbs / 4;
+        pro_grams = daily_total_protein / 4;
+        fat_grams = daily_total_fat / 9;
+
 
         var data2 = new google.visualization.DataTable();
         data2.addColumn('string', 'Type');
         data2.addColumn('number', 'Grams');
         data2.addRows([
-		   ['Net Carbs', daily_total_carbs / 4],
-		   ['Protein', daily_total_protein / 4],
-		   ['Fat', daily_total_fat / 9]
+		   ['Net Carbs (' + carb_grams + 'g)', carb_grams ],
+		   ['Protein (' + pro_grams + ')' , pro_grams],
+		   ['Fat (' + fat_grams + ')', fat_grams]
         ]);
 
         var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
