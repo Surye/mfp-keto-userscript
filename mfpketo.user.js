@@ -293,19 +293,19 @@ function main() {
 
 
     if (daily_total_carbs != 0 || daily_total_protein != 0 || daily_total_fat != 0) {
-        //jQuery('.food_container').append('<div id="google_graph_1"></div>');
+        jQuery('.food_container').append('<div id="google_graph_1"></div>');
 
-        //var data1 = new google.visualization.DataTable();
-        //data1.addColumn('string', 'Type');
-        //data1.addColumn('number', 'Cals');
-        //data1.addRows([
-		//   ['Net Carbs', daily_total_carbs],
-		//   ['Protein', daily_total_protein],
-		//   ['Fat', daily_total_fat]
-        //]);
+        var data1 = new google.visualization.DataTable();
+        data1.addColumn('string', 'Type');
+        data1.addColumn('number', 'Cals');
+        data1.addRows([
+		   ['Net Carbs', daily_total_carbs],
+		   ['Protein', daily_total_protein],
+		   ['Fat', daily_total_fat]
+        ]);
 
-        //var chart = new google.visualization.PieChart(document.getElementById('google_graph_1'));
-        //chart.draw(data1, { width: 400, height: 300, title: 'Daily Totals by Calories' });
+        var chart = new google.visualization.PieChart(document.getElementById('google_graph_1'));
+        chart.draw(data1, { width: 400, height: 300, title: 'Daily Totals by Calories' });
 
 
         jQuery('.food_container').append('<div id="google_graph_2"></div>');
@@ -320,6 +320,6 @@ function main() {
         ]);
 
         var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
-        chart.draw(data2, { width: 400, height: 300, title: 'Daily Totals by Grams' });
+        chart2.draw(data2, { width: 400, height: 300, title: 'Daily Totals by Grams' });
     }
 }
