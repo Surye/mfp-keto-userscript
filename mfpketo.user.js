@@ -3,6 +3,7 @@
 // @version        1.7
 // @namespace      surye
 // @description    Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
+// @downloadURL    https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js
 // @include http://www.myfitnesspal.com/food/diary/* 
 // @include https://www.myfitnesspal.com/food/diary/*
 // @include http://www.myfitnesspal.com/food/diary
