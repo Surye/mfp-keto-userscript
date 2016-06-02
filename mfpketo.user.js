@@ -11,12 +11,12 @@
 /* side note - 5/30/65 Carbs/Protein/Fat is a good ratio for fat loss */
 
 
-/*  
+/*
  *  ------------------------------------------------------------
  * Thanks to kt123 and Wickity for the fixes.
  *  ------------------------------------------------------------
  */
-/*  
+/*
  *  ------------------------------------------------------------
  *  Based off of http://userscripts.org/scripts/show/104606
  *  Much credit to Bompus, hope it's okay I used it!
@@ -62,14 +62,14 @@ function exec(fn) {
 function startRun() {
     var script = document.createElement("script");
     script.setAttribute("src", "//www.google.com/jsapi");
-    script.addEventListener('load', function () {
+    script.addEventListener('load', function() {
         exec(jsapiLoaded);
     }, false);
     document.body.appendChild(script);
 
     script = document.createElement("script");
     script.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js");
-    script.addEventListener('load', function () {
+    script.addEventListener('load', function() {
         exec("jQuery.noConflict();");
     }, false);
     document.body.appendChild(script);
@@ -96,7 +96,6 @@ function main() {
 
     var daily_total_carbs = 0;
     var daily_total_protein = 0;
-    var daily_total_fiber = 0;
     var daily_total_fat = 0;
 
     var net_carb_total = 0;
@@ -105,7 +104,7 @@ function main() {
     var header_tr_element = jQuery('.food_container tr.meal_header:first');
 
     var elem_i = 0;
-    header_tr_element.find('td').each(function () {
+    header_tr_element.find('td').each(function() {
         var myval = jQuery(this).text().toLowerCase();
         if (myval == 'calories') { calories_i = elem_i; }
         if (myval == 'carbs') { carbs_i = elem_i; }
@@ -119,9 +118,9 @@ function main() {
 
     // Add new column for net carbs
     var net_carb_tr_elements = jQuery('tr');
-    net_carb_tr_elements.each(function () {
+    net_carb_tr_elements.each(function() {
         var tds = jQuery(this).find('td');
-        $('<td></td>').insertBefore(tds.eq(carbs_i));
+        jQuery('<td></td>').insertBefore(tds.eq(carbs_i));
 
     });
 
@@ -145,35 +144,20 @@ function main() {
     footer_tr_element.find('td').eq(net_carbs_i).addClass("alt");
 
     var bottom_tr_elements = jQuery('.food_container tr.bottom, .food_container tr.total');
-    bottom_tr_elements.each(function () {
+    bottom_tr_elements.each(function() {
 
         if (jQuery(this).hasClass('remaining')) {
             return false; /* continue */
         }
 
-        var cals = 0;
-        var real_cals = 0;
-        var fiber = 0;
-        var carbs = 0;
-        var protein = 0;
-        var fat = 0;
-
         var tds = jQuery(this).find('td');
-        var cals = tds.eq(calories_i).text();
-        var carbs = tds.eq(carbs_i).text();
-        var fiber = tds.eq(fiber_i).text();
-        var protein = tds.eq(protein_i).text();
-        var fat = tds.eq(fat_i).text();
-
-        fiber = parseInt(fiber);
-        cals = parseInt(cals);
-        carbs = parseInt(carbs);
-        protein = parseInt(protein);
-        fat = parseInt(fat);
+        var cals = parseFloat(tds.eq(calories_i).text()) || 0;
+        var carbs = parseFloat(tds.eq(carbs_i).text()) || 0;
+        var fiber = parseFloat(tds.eq(fiber_i).text()) || 0;
+        var protein = parseFloat(tds.eq(protein_i).text()) || 0;
+        var fat = parseFloat(tds.eq(fat_i).text()) || 0;
 
         var net_carbs = carbs;
-
-
 
         // HACK to show net carbs
         if (!jQuery(this).hasClass('alt')) {
@@ -190,34 +174,47 @@ function main() {
 
 
         /* do nothing if cannot calculate for the row */
-        if (isNaN(cals) || isNaN(carbs)
-	            || isNaN(protein) || isNaN(fat)
-		    || isNaN(fiber) || isNaN(net_carbs) || cals == 0) { return true; }
+        if (isNaN(cals) ||
+            isNaN(carbs) ||
+            isNaN(protein) ||
+            isNaN(fat) ||
+            isNaN(fiber) ||
+            isNaN(net_carbs) ||
+            cals === 0) {
 
+            return true;
+
+        }
 
         tds.eq(net_carbs_i).text(net_carbs);
 
 
-        // if(net_carbs == 0 && protein == 0 && fat == 0) { return true; }
+        // if (net_carbs == 0 &&
+        //     protein == 0 &&
+        //     fat == 0) {
+        //     return true;
+        // }
 
         var carb_cals = (net_carbs * 4);
         var protein_cals = (protein * 4);
         var fat_cals = (fat * 9);
 
-        if (jQuery(this).hasClass('total')
-				&& !jQuery(this).hasClass('alt')
-				&& daily_total_carbs == 0) {
+        if (jQuery(this).hasClass('total') &&
+            !jQuery(this).hasClass('alt') &&
+            daily_total_carbs === 0) {
+
             daily_total_carbs = carb_cals;
             daily_total_protein = protein_cals;
             daily_total_fat = fat_cals;
             net_carb_total = net_carbs;
+
         }
 
-        real_cals = carb_cals + protein_cals + fat_cals;
+        var real_cals = carb_cals + protein_cals + fat_cals;
 
-        var carb_pct = (carb_cals / real_cals).toFixed(2) * 100;
-        var fat_pct = (fat_cals / real_cals).toFixed(2) * 100;
-        var protein_pct = (protein_cals / real_cals).toFixed(2) * 100;
+        var carb_pct = ((carb_cals / real_cals) * 100).toFixed(2);
+        var fat_pct = ((fat_cals / real_cals) * 100).toFixed(2);
+        var protein_pct = ((protein_cals / real_cals) * 100).toFixed(2);
 
         //alert(daily_total_carbs + ", " + daily_total_protein + ", " + daily_total_fat + ", " + net_carb_total);
 
@@ -225,24 +222,30 @@ function main() {
         fat_pct = Math.round(fat_pct);
         protein_pct = Math.round(protein_pct);
 
-        tds.each(function () { jQuery(this).append('<div class="myfp_us" style="color:#0a0;font-size:9px;text-align:center;">&nbsp;</div>'); });
+        tds.each(function() {
+            jQuery(this).append('<div class="myfp_us" style="color:#0a0;font-size:9px;text-align:center;">&nbsp;</div>');
+        });
 
         tds.eq(0).find('div.myfp_us').html("");
+
         /*tds.eq(calories_i).find('div.myfp_us').html(real_cals);*/
+
         if (!isNaN(carb_pct)) {
             tds.eq(net_carbs_i).find('div.myfp_us').html(carb_pct + "%");
         }
+
         if (!isNaN(fat_pct)) {
             tds.eq(fat_i).find('div.myfp_us').html(fat_pct + "%");
         }
+
         if (!isNaN(protein_pct)) {
             tds.eq(protein_i).find('div.myfp_us').html(protein_pct + "%");
         }
     });
 
     var remaining_tr_elements = jQuery('.food_container tr.total.remaining');
-    remaining_tr_elements.each(function () {
 
+    remaining_tr_elements.each(function() {
 
         // Show remaining as net carbs
         var net_carbs = net_carb_total_goal - net_carb_total;
@@ -263,11 +266,11 @@ function main() {
 
 
     var food_tr_elements = jQuery('tr');
-    food_tr_elements.each(function () {
+    food_tr_elements.each(function() {
 
         var tds = jQuery(this).find('td');
-        var carbs = tds.eq(carbs_i).text();
-        var fiber = tds.eq(fiber_i).text();
+        var carbs = parseFloat(tds.eq(carbs_i).text());
+        var fiber = parseFloat(tds.eq(fiber_i).text());
 
         //fiber = parseInt(fiber);
         //cals = parseInt(cals);
@@ -280,51 +283,64 @@ function main() {
 
             if ((carbs - fiber) < 0) {
                 // Flag bad data :(
-                tds.each(function () {
+                tds.each(function() {
                     jQuery(this).css('background-color', 'pink');
 
                 });
-                $('<td style="background: pink">Bad data, negative net carbs!</td>').insertAfter(tds.eq(tds.length - 1));
+                jQuery('<td style="background: pink">Bad data, negative net carbs!</td>').insertAfter(tds.eq(tds.length - 1));
             }
         }
     });
 
 
-    if (daily_total_carbs != 0 || daily_total_protein != 0 || daily_total_fat != 0) {
+    if (daily_total_carbs !== 0 ||
+        daily_total_protein !== 0 ||
+        daily_total_fat !== 0) {
+
         jQuery('.food_container').append('<div id="google_graph_1"></div>');
 
         var data1 = new google.visualization.DataTable();
         data1.addColumn('string', 'Type');
         data1.addColumn('number', 'Cals');
-        data1.addRows([
-		   ['Net Carbs', daily_total_carbs],
-		   ['Protein', daily_total_protein],
-		   ['Fat', daily_total_fat]
-        ]);
+        data1.addRows(
+            [
+                ['Net Carbs', daily_total_carbs],
+                ['Protein', daily_total_protein],
+                ['Fat', daily_total_fat]
+            ]
+        );
 
         var chart = new google.visualization.PieChart(document.getElementById('google_graph_1'));
-        chart.draw(data1, { width: 350, height: 300, title: 'Daily Totals by Calories (This is what you use for your macro ratios)' });
+        chart.draw(data1, {
+            width: 350,
+            height: 300,
+            title: 'Daily Totals by Calories (This is what you use for your macro ratios)'
+        });
         document.getElementById('google_graph_1').style.cssFloat = "left";
-
 
         jQuery('.food_container').append('<div id="google_graph_2"></div>');
 
-        carb_grams = daily_total_carbs / 4;
-        pro_grams = daily_total_protein / 4;
-        fat_grams = daily_total_fat / 9;
-
+        var carb_grams = daily_total_carbs / 4;
+        var pro_grams = daily_total_protein / 4;
+        var fat_grams = daily_total_fat / 9;
 
         var data2 = new google.visualization.DataTable();
         data2.addColumn('string', 'Type');
         data2.addColumn('number', 'Grams');
-        data2.addRows([
-		   ['Net Carbs (' + carb_grams + 'g)', carb_grams],
-		   ['Protein (' + pro_grams + 'g)', pro_grams],
-		   ['Fat (' + fat_grams + 'g)', fat_grams]
-        ]);
+        data2.addRows(
+            [
+                ['Net Carbs (' + carb_grams + 'g)', carb_grams],
+                ['Protein (' + pro_grams + 'g)', pro_grams],
+                ['Fat (' + fat_grams + 'g)', fat_grams]
+            ]
+        );
 
         var chart2 = new google.visualization.PieChart(document.getElementById('google_graph_2'));
-        chart2.draw(data2, { width: 350, height: 300, title: 'Daily Totals by Grams' });
+        chart2.draw(data2, {
+            width: 350,
+            height: 300,
+            title: 'Daily Totals by Grams'
+        });
         document.getElementById('google_graph_2').style.cssFloat = "right";
     }
 }
