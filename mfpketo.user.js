@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            MyFitnessPal Percentages and Net Carbs
-// @version         1.7
+// @version         1.8
 // @namespace       surye
 // @description     Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @downloadURL     https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js
