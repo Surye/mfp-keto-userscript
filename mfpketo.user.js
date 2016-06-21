@@ -105,7 +105,7 @@ function main() {
 
     var elem_i = 0;
     header_tr_element.find('td').each(function() {
-        var myval = jQuery(this).text().toLowerCase();
+        var myval = jQuery(this).text().toLowerCase().trim();
         if (myval == 'calories') { calories_i = elem_i; }
         if (myval == 'carbs') { carbs_i = elem_i; }
         if (myval == 'fiber') { fiber_i = elem_i; }
