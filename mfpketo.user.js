@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            MyFitnessPal Percentages and Net Carbs
-// @version         1.9
+// @version         1.10
 // @namespace       surye
 // @description     Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @downloadURL     https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js
@@ -106,11 +106,11 @@ function main() {
     var elem_i = 0;
     header_tr_element.find('td').each(function() {
         var myval = jQuery(this).text().toLowerCase().trim();
-        if (myval == 'calories') { calories_i = elem_i; }
-        if (myval == 'carbs') { carbs_i = elem_i; }
-        if (myval == 'fiber') { fiber_i = elem_i; }
-        if (myval == 'fat') { fat_i = elem_i; }
-        if (myval == 'protein') { protein_i = elem_i; }
+        if (myval.indexOf('calories') !== -1) { calories_i = elem_i; }
+        if (myval.indexOf('carbs') !== -1) { carbs_i = elem_i; }
+        if (myval.indexOf('fiber') !== -1) { fiber_i = elem_i; }
+        if (myval.indexOf('fat') !== -1) { fat_i = elem_i; }
+        if (myval.indexOf('protein') !== -1) { protein_i = elem_i; }
 
         elem_i += 1;
     });
@@ -135,6 +135,7 @@ function main() {
     // Set header
     header_tr_element.find('td').eq(net_carbs_i).text("Net Carbs");
     header_tr_element.find('td').eq(net_carbs_i).addClass("alt");
+    header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
 
 
 
@@ -142,6 +143,7 @@ function main() {
     var footer_tr_element = jQuery('tfoot tr');
     footer_tr_element.find('td').eq(net_carbs_i).text("Net Carbs");
     footer_tr_element.find('td').eq(net_carbs_i).addClass("alt");
+    header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
 
     var bottom_tr_elements = jQuery('.food_container tr.bottom, .food_container tr.total');
     bottom_tr_elements.each(function() {
