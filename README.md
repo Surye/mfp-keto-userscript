@@ -23,7 +23,6 @@ Created primarily for the /r/keto community on Reddit.
 
 <li>Q: I get NaN's in the Net Carb column!</li>
 <li>A: It may be you didn't have all the required columns added, go to http://www.myfitnesspal.com/account/diary_settings and make sure all the columns required are there (most likely, you need to add the fiber column).</li>
-</ul>
 
 <li>Q: What about sugar alcohols?</li>
 <li>A: Since MFP does not recognize these as a seperate nutrition, it will simply be up to the data entry (don't include it in carbs) or the user will have to know to ignore it.</li>
