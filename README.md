@@ -13,8 +13,8 @@ Created primarily for the /r/keto community on Reddit.
 </ul>
 <h2>App:</h2>
 <ul>
-<li>Android Studio Project in MFPKetoMacros folder</li>
-<li>An installable .apk is in </li>
+<li>Android Studio Project in MFPKetoMacros folder https://github.com/sghsmorgan/mfp-keto-userscript/tree/AndroidApp/MFPKetoMacros</li>
+<li>An installable .apk is in https://github.com/sghsmorgan/mfp-keto-userscript/tree/AndroidApp/MFPKetoMacros/demo%20apk</li>
 </ul>
 
 <h1>Upgrade:</h1>
