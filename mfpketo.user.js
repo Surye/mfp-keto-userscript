@@ -178,12 +178,12 @@ function main() {
 
         var tds = jQuery(this).find('td');
         var cals = parseFloat(tds.eq(calories_i).text()) || 0;
-        var carbs = parseFloat(tds.eq(carbs_i).text()) || 0;
+        var carbs = (parseFloat(tds.eq(carbs_i).text()) || 0) + alreadyCountedFiber;
         var fiber = parseFloat(tds.eq(fiber_i).text()) || 0;
         var protein = parseFloat(tds.eq(protein_i).text()) || 0;
         var fat = parseFloat(tds.eq(fat_i).text()) || 0;
 
-        var net_carbs = carbs + alreadyCountedFiber;
+        var net_carbs = carbs;
 
         // HACK to show net carbs
         if (!jQuery(this).hasClass('alt')) {
