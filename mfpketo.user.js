@@ -145,9 +145,10 @@ function main() {
     footer_tr_element.find('td').eq(net_carbs_i).addClass("alt");
     header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
 
-    
+
     var alreadyCountedFiber = 0;
     var food_tr_elements = jQuery('tr');
+
     food_tr_elements.each(function() {
 
         var tds = jQuery(this).find('td');
@@ -160,15 +161,17 @@ function main() {
         // Find only food rows!
         var delete_td = tds.eq(tds.length - 1);
         if (delete_td.hasClass('delete')) {
-            if (jQuery(this).find('.js-show-edit-food').text().toLowerCase().indexOf("net carbs") !== -1 || (carbs - fiber) < 0) {
+			var name = jQuery(this).find('.js-show-edit-food').text().toLowerCase();
+
+			tds.eq(net_carbs_i).text(carbs - fiber);
+
+            if (name.indexOf("net carbs") !== -1 || (carbs - fiber) < 0) {
                 alreadyCountedFiber += Number(fiber);
                 tds.eq(net_carbs_i).text(carbs);
-                return false;
             }
-            tds.eq(net_carbs_i).text(carbs - fiber);
         }
     });
-    
+
     var bottom_tr_elements = jQuery('.food_container tr.bottom, .food_container tr.total');
     bottom_tr_elements.each(function() {
 
