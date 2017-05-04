@@ -145,6 +145,33 @@ function main() {
     footer_tr_element.find('td').eq(net_carbs_i).addClass("alt");
     header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
 
+
+    var alreadyCountedFiber = 0;
+    var food_tr_elements = jQuery('tr');
+
+    food_tr_elements.each(function() {
+
+        var tds = jQuery(this).find('td');
+        var carbs = parseFloat(tds.eq(carbs_i).text());
+        var fiber = parseFloat(tds.eq(fiber_i).text());
+
+        //fiber = parseInt(fiber);
+        //cals = parseInt(cals);
+
+        // Find only food rows!
+        var delete_td = tds.eq(tds.length - 1);
+        if (delete_td.hasClass('delete')) {
+			var name = jQuery(this).find('.js-show-edit-food').text().toLowerCase();
+
+			tds.eq(net_carbs_i).text(carbs - fiber);
+
+            if (name.indexOf("net carbs") !== -1 || (carbs - fiber) < 0) {
+                alreadyCountedFiber += Number(fiber);
+                tds.eq(net_carbs_i).text(carbs);
+            }
+        }
+    });
+
     var bottom_tr_elements = jQuery('.food_container tr.bottom, .food_container tr.total');
     bottom_tr_elements.each(function() {
 
@@ -154,7 +181,7 @@ function main() {
 
         var tds = jQuery(this).find('td');
         var cals = parseFloat(tds.eq(calories_i).text()) || 0;
-        var carbs = parseFloat(tds.eq(carbs_i).text()) || 0;
+        var carbs = (parseFloat(tds.eq(carbs_i).text()) || 0) + alreadyCountedFiber;
         var fiber = parseFloat(tds.eq(fiber_i).text()) || 0;
         var protein = parseFloat(tds.eq(protein_i).text()) || 0;
         var fat = parseFloat(tds.eq(fat_i).text()) || 0;
@@ -267,32 +294,6 @@ function main() {
     });
 
 
-    var food_tr_elements = jQuery('tr');
-    food_tr_elements.each(function() {
-
-        var tds = jQuery(this).find('td');
-        var carbs = parseFloat(tds.eq(carbs_i).text());
-        var fiber = parseFloat(tds.eq(fiber_i).text());
-
-        //fiber = parseInt(fiber);
-        //cals = parseInt(cals);
-
-        // Find only food rows!
-        var delete_td = tds.eq(tds.length - 1);
-        if (delete_td.hasClass('delete')) {
-
-            tds.eq(net_carbs_i).text(carbs - fiber);
-
-            if ((carbs - fiber) < 0) {
-                // Flag bad data :(
-                tds.each(function() {
-                    jQuery(this).css('background-color', 'pink');
-
-                });
-                jQuery('<td style="background: pink">Bad data, negative net carbs!</td>').insertAfter(tds.eq(tds.length - 1));
-            }
-        }
-    });
 
 
     if (daily_total_carbs !== 0 ||
