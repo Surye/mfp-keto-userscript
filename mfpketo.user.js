@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            MyFitnessPal Percentages and Net Carbs
-// @version         1.12
+// @version         1.13
 // @namespace       surye
 // @description     Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @downloadURL     https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js
@@ -146,10 +146,15 @@ function main() {
     header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
 
 
-    var alreadyCountedFiber = 0;
+    var alreadyCountedFiber = [0];
+    var alreadyCountedFiberIdx = 0;
     var food_tr_elements = jQuery('tr');
 
     food_tr_elements.each(function() {
+        if($(this).hasClass('bottom')) {
+            alreadyCountedFiberIdx++;
+            alreadyCountedFiber[alreadyCountedFiberIdx] = 0;
+        }
 
         var tds = jQuery(this).find('td');
         var carbs = parseFloat(tds.eq(carbs_i).text());
@@ -166,13 +171,18 @@ function main() {
 			tds.eq(net_carbs_i).text(carbs - fiber);
 
             if (name.indexOf("net carbs") !== -1 || (carbs - fiber) < 0) {
-                alreadyCountedFiber += Number(fiber);
+                alreadyCountedFiber[alreadyCountedFiberIdx] += Number(fiber);
                 tds.eq(net_carbs_i).text(carbs);
             }
         }
     });
+    
+    totalAlreadyCountedFiber = 0;
+    for (var i=0; i < alreadyCountedFiber.length; i++){ totalAlreadyCountedFiber += alreadyCountedFiber[i];}
+
 
     var bottom_tr_elements = jQuery('.food_container tr.bottom, .food_container tr.total');
+    var meal_idx = 0;
     bottom_tr_elements.each(function() {
 
         if (jQuery(this).hasClass('remaining')) {
@@ -180,11 +190,15 @@ function main() {
         }
 
         var tds = jQuery(this).find('td');
-        var cals = parseFloat(tds.eq(calories_i).text()) || 0;
-        var carbs = (parseFloat(tds.eq(carbs_i).text()) || 0) + alreadyCountedFiber;
-        var fiber = parseFloat(tds.eq(fiber_i).text()) || 0;
-        var protein = parseFloat(tds.eq(protein_i).text()) || 0;
-        var fat = parseFloat(tds.eq(fat_i).text()) || 0;
+        var cals = parseFloat(tds.eq(calories_i).text());
+        if($(this).hasClass('bottom')) {
+            var carbs = parseFloat(tds.eq(carbs_i).text()) + alreadyCountedFiber[meal_idx];
+        } else {
+            var carbs = parseFloat(tds.eq(carbs_i).text()) + totalAlreadyCountedFiber;
+        }
+        var fiber = parseFloat(tds.eq(fiber_i).text());
+        var protein = parseFloat(tds.eq(protein_i).text());
+        var fat = parseFloat(tds.eq(fat_i).text());
 
         var net_carbs = carbs;
 
@@ -210,7 +224,7 @@ function main() {
             isNaN(fiber) ||
             isNaN(net_carbs) ||
             cals === 0) {
-
+            meal_idx++;
             return true;
 
         }
@@ -270,6 +284,8 @@ function main() {
         if (!isNaN(protein_pct)) {
             tds.eq(protein_i).find('div.myfp_us').html(protein_pct + "%");
         }
+
+        meal_idx++;
     });
 
     var remaining_tr_elements = jQuery('.food_container tr.total.remaining');
