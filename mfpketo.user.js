@@ -194,7 +194,7 @@ function main() {
         if($(this).hasClass('bottom')) {
             var carbs = parseFloat(tds.eq(carbs_i).text()) + alreadyCountedFiber[meal_idx];
         } else {
-            var carbs = parseFloat(tds.eq(carbs_i).text()) + totalAlreadyCountedFiber;
+            var carbs = parseFloat(tds.eq(carbs_i).text());
         }
         var fiber = parseFloat(tds.eq(fiber_i).text());
         var protein = parseFloat(tds.eq(protein_i).text());
@@ -212,7 +212,7 @@ function main() {
             }
         } else {
             // record goal
-            net_carb_total_goal = net_carbs;
+            net_carb_total_goal = net_carbs - totalAlreadyCountedFiber;
         }
 
 
@@ -249,7 +249,7 @@ function main() {
             daily_total_carbs = carb_cals;
             daily_total_protein = protein_cals;
             daily_total_fat = fat_cals;
-            net_carb_total = net_carbs;
+            net_carb_total = net_carbs - totalAlreadyCountedFiber;
 
         }
 
@@ -293,7 +293,7 @@ function main() {
     remaining_tr_elements.each(function() {
 
         // Show remaining as net carbs
-        var net_carbs = net_carb_total_goal - net_carb_total;
+        var net_carbs = net_carb_total_goal - net_carb_total - totalAlreadyCountedFiber;
         var tds = jQuery(this).find('td');
         tds.eq(net_carbs_i).text(parseInt(net_carbs));
 
