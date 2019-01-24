@@ -1,56 +1,20 @@
 // ==UserScript==
 // @name            MyFitnessPal Percentages and Net Carbs
-// @version         1.14
+// @version         1.15
 // @namespace       surye
 // @description     Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @downloadURL     https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js
 // @include         http*://www.myfitnesspal.com/food/diary*
 // ==/UserScript==
 
-
-/* side note - 5/30/65 Carbs/Protein/Fat is a good ratio for fat loss */
-
-
 /*
  *  ------------------------------------------------------------
- * Thanks to kt123 and Wickity for the fixes.
- *  ------------------------------------------------------------
- */
-/*
- *  ------------------------------------------------------------
- *  Based off of http://userscripts.org/scripts/show/104606
- *  Much credit to Bompus, hope it's okay I used it!
+ *  Much credit to Bompus, author of the original script!
+ *  Thanks to kt123 and Wickity for the fixes.
  *  ------------------------------------------------------------
  */
 
-/*
- * TODO: Gracefully handle missing required columns.
- */
-/*
-if (window.top !== window.self) {
-  return; // do not run in frames
-}
-*/
-/*
-if (typeof unsafeWindow != 'undefined')
-{
-  (function page_scope_runner() {
-    // If we're _not_ already running in the page, grab the full source
-    // of this script.
-    var my_src = "(" + page_scope_runner.caller.toString() + ")();";
 
-    // Create a script node holding this script, plus a marker that lets us
-    // know we are running in the page scope (not the Greasemonkey sandbox).
-    // Note that we are intentionally *not* scope-wrapping here.
-    var script = document.createElement('script');
-    script.setAttribute("type", "application/javascript");
-    script.textContent = my_src;
-    document.body.appendChild(script);
-  })();
-
-  return;
-}
-*/
 function exec(fn) {
     var script = document.createElement('script');
     script.setAttribute("type", "application/javascript");
@@ -60,6 +24,7 @@ function exec(fn) {
 }
 
 function startRun() {
+    // Load Google API for Charts
     var script = document.createElement("script");
     script.setAttribute("src", "//www.google.com/jsapi");
     script.addEventListener('load', function() {
@@ -67,6 +32,7 @@ function startRun() {
     }, false);
     document.body.appendChild(script);
 
+    // Load jQuery
     script = document.createElement("script");
     script.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1.10.0/jquery.min.js");
     script.addEventListener('load', function() {
@@ -74,6 +40,7 @@ function startRun() {
     }, false);
     document.body.appendChild(script);
 
+    // Inject this script into page.
     script = document.createElement('script');
     script.setAttribute("type", "application/javascript");
     script.textContent = main;
@@ -160,9 +127,6 @@ function main() {
         var carbs = parseFloat(tds.eq(carbs_i).text());
         var fiber = parseFloat(tds.eq(fiber_i).text());
 
-        //fiber = parseInt(fiber);
-        //cals = parseInt(cals);
-
         // Find only food rows!
         var delete_td = tds.eq(tds.length - 1);
         if (delete_td.hasClass('delete')) {
@@ -176,8 +140,8 @@ function main() {
             }
         }
     });
-    
-    totalAlreadyCountedFiber = 0;
+
+    var totalAlreadyCountedFiber = 0;
     for (var i=0; i < alreadyCountedFiber.length; i++){ totalAlreadyCountedFiber += alreadyCountedFiber[i];}
 
 
@@ -191,10 +155,11 @@ function main() {
 
         var tds = jQuery(this).find('td');
         var cals = parseFloat(tds.eq(calories_i).text());
+        var carbs = 0;
         if($(this).hasClass('bottom')) {
-            var carbs = parseFloat(tds.eq(carbs_i).text()) + alreadyCountedFiber[meal_idx];
+            carbs = parseFloat(tds.eq(carbs_i).text()) + alreadyCountedFiber[meal_idx];
         } else {
-            var carbs = parseFloat(tds.eq(carbs_i).text());
+            carbs = parseFloat(tds.eq(carbs_i).text());
         }
         var fiber = parseFloat(tds.eq(fiber_i).text());
         var protein = parseFloat(tds.eq(protein_i).text());
