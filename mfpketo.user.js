@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            MyFitnessPal Percentages and Net Carbs
-// @version         1.15
+// @version         1.16
 // @namespace       surye
 // @description     Adds display of Carb/Protein/Fat percentages to any daily food diary page. Also adds "Real Calories" calcalation based off 4/4/9 algorithm. Based on "MyFitnessPal Percentages and Net Carbs"
 // @downloadURL     https://github.com/Surye/mfp-keto-userscript/raw/master/mfpketo.user.js
@@ -157,9 +157,9 @@ function main() {
         var cals = parseFloat(tds.eq(calories_i).text());
         var carbs = 0;
         if($(this).hasClass('bottom')) {
-            carbs = parseFloat(tds.eq(carbs_i).text()) + alreadyCountedFiber[meal_idx];
-        } else {
             carbs = parseFloat(tds.eq(carbs_i).text());
+        } else {
+            carbs = parseFloat(tds.eq(carbs_i).text()) + totalAlreadyCountedFiber;
         }
         var fiber = parseFloat(tds.eq(fiber_i).text());
         var protein = parseFloat(tds.eq(protein_i).text());
@@ -169,7 +169,7 @@ function main() {
 
         // HACK to show net carbs
         if (!jQuery(this).hasClass('alt')) {
-            net_carbs = carbs - fiber;
+            net_carbs = carbs - fiber + alreadyCountedFiber[meal_idx];
             if (!isNaN(net_carbs)) {
                 tds.eq(net_carbs_i).text(net_carbs);
             } else if (jQuery(this).hasClass("total")) {
@@ -177,7 +177,7 @@ function main() {
             }
         } else {
             // record goal
-            net_carb_total_goal = net_carbs - totalAlreadyCountedFiber;
+            net_carb_total_goal = net_carbs;
         }
 
 
