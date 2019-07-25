@@ -101,16 +101,15 @@ function main() {
 
     // Set header
     header_tr_element.find('td').eq(net_carbs_i).text("Net Carbs");
+    header_tr_element.find('td').eq(net_carbs_i).append(`<div class="subtitle">g</div>`);
     header_tr_element.find('td').eq(net_carbs_i).addClass("alt");
     header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
-
 
 
     // Change to say net carbs
     var footer_tr_element = jQuery('tfoot tr');
     footer_tr_element.find('td').eq(net_carbs_i).text("Net Carbs");
     footer_tr_element.find('td').eq(net_carbs_i).addClass("alt");
-    header_tr_element.find('td').eq(net_carbs_i).addClass("nutrient-column");
 
 
     var alreadyCountedFiber = [0];
